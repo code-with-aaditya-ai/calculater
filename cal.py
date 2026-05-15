@@ -3,7 +3,6 @@ st.set_page_config(page_title="Calculater", page_icon="🌍")
 st.title("🌍 Calculater")
 if "result" not in st.session_state:
     st.session_state.result = None
-
 operation={
     "sum":"+",
     "subtract":"-",

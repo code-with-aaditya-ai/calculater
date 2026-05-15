@@ -1,50 +1,57 @@
 import streamlit as st
-
-st.set_page_config(page_title="Calculator", page_icon="🧮")
-
-st.title("🧮 Smart Calculator")
-
-# Save previous result
+st.set_page_config(page_title="Calculater", page_icon="🌍")
+st.title("🌍 Calculater")
 if "result" not in st.session_state:
     st.session_state.result = None
 
-task = st.selectbox(
-    "Choose option",
-    [
-        "New Calculation",
-        "Continue With Previous Result"
-    ]
+operation={
+    "sum":"+",
+    "subtract":"-",
+    "divide":"/",
+    "multiply":"*"
+}
+list={
+    "contune calculater":"contune",
+    "start new calculater":"new"
+}
+
+# SELECT TASK
+target_task = st.selectbox(
+    "Choose task",
+    list(task_list.keys())
 )
 
-# NEW CALCULATION
-if task == "New Calculation":
+# SELECT OPERATION
+target_operation = st.selectbox(
+    "Choose operation",
+    list(operation.keys())
+)
 
-    expression = st.text_input(
-        "Enter expression"
-    )
+if target_task == "start new calculator":
+
+    a = st.number_input("Enter first number")
+    b = st.number_input("Enter second number")
 
 # CONTINUE WITH PREVIOUS RESULT
 else:
 
     st.write(f"Previous Result: {st.session_state.result}")
 
-    next_expression = st.text_input(
-        "Enter operation with next value",
-        placeholder="Example: +10 or *2"
-    )
+    a = st.session_state.result
+    b = st.number_input("Enter next number")
 
-    if st.session_state.result is not None:
-        expression = str(st.session_state.result) + next_expression
-    else:
-        expression = ""
-
-# CALCULATE BUTTON
+# CALCULATE
 if st.button("Calculate"):
 
-    if expression.strip() == "":
-        st.warning("Please enter expression")
+    if a is None:
+        st.error("First do a new calculation")
 
     else:
+
+        symbol = operation[target_operation]
+
+        expression = f"{a}{symbol}{b}"
+
         try:
             result = eval(expression)
 
@@ -53,4 +60,4 @@ if st.button("Calculate"):
             st.success(f"Result: {result}")
 
         except:
-            st.error("Invalid Expression")
+            st.error("Invalid Calculation")
